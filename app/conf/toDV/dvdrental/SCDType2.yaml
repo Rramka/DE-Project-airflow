@@ -1,0 +1,75 @@
+dvdrental.staff:
+  SourceTableName: staff
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: SCD
+  InsertionType: replace
+  DestDBName: DBDV
+  DestTableName: staff
+  DestSchema: dvdrental
+  NaturalKey: staff_id
+  SurogateKey:
+    staff_id
+  FilterColumn: last_update
+  Code: 1 
+
+dvdrental.customer:
+  SourceTableName: customer
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: SCD
+  InsertionType: replace
+  DestDBName: DBDV
+  DestTableName: customer
+  DestSchema: dvdrental
+  FilterColumn: last_update
+  NaturalKey: customer_id
+  SurogateKey:
+    customer_id
+  Code: 1
+
+dvdrental.inventory:
+  SourceTableName: inventory
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: SCD
+  InsertionType: replace
+  DestDBName: DBDV
+  DestTableName: inventory
+  DestSchema: dvdrental
+  NaturalKey: inventory_id
+  SurogateKey:
+    inventory_id
+  FilterColumn: last_update
+  Code: 1
+
+dvdrental.address:
+  SourceTableName: address
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: SCD
+  InsertionType: replace
+  DestDBName: DBDV
+  DestTableName: address
+  DestSchema: dvdrental
+  NaturalKey: address_id
+  SurogateKey:
+    address_id
+  FilterColumn: last_update
+  Code: 1
+
+
+dvdrental.store:
+  SourceTableName: store
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: SCD
+  InsertionType: replace
+  DestDBName: DBDV
+  DestTableName: store
+  DestSchema: dvdrental
+  NaturalKey: store_id
+  SurogateKey:
+    store_id
+  FilterColumn: last_update
+  Code: 1

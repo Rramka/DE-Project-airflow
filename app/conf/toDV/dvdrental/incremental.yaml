@@ -1,0 +1,31 @@
+dvdrental.rental:
+  SourceTableName: rental
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: INCREMENTAL
+  InsertionType: append
+  DestDBName: DBDV
+  DestTableName: rental
+  DestSchema: dvdrental
+  FilterColumn: rental_date
+  NaturalKey:
+    rental_id
+  SurogateKey:
+    rental_id
+  Code: 1
+
+dvdrental.payment:
+  SourceTableName: payment
+  SourceDBName: DBStaging
+  SourceSchema: dvdrental
+  TableType: INCREMENTAL
+  InsertionType: append
+  DestDBName: DBDV
+  DestTableName: payment
+  DestSchema: dvdrental
+  FilterColumn: payment_date
+  NaturalKey:
+    payment_id
+  SurogateKey:
+    payment_id
+  Code: 1

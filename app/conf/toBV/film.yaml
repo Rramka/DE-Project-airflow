@@ -1,0 +1,21 @@
+dvdrental.film:
+  SourceDBName: DBDV
+  Query: |-
+            with film_actorr
+            as
+            (select fa.gen_film_id, count(fa.*) over (partition by fa.gen_film_id ) cnt_actor from "DBDV".dvdrental.film_actor fa ),
+            film_categoryy
+            as
+            (select fc.gen_film_id, count(fc.*) over (partition by fc.gen_film_id ) cnt_category from "DBDV".dvdrental.film_category fc )
+            select  f.gen_film_id ,f.title , f.description , l."name"  as language, f.release_year , f.length  as lengt_minute, f.rating,
+            fa.cnt_actor, fc.cnt_category
+            from "DBDV".dvdrental.film f 
+            left join "DBDV".dvdrental."language" l on f.language_id = l.source_language_id 
+            left join film_actorr fa on fa.gen_film_id = f.gen_film_id  
+            left join film_categoryy fc on f.gen_film_id = fc.gen_film_id
+  TableType: FULL
+  InsertionType: replace
+  DestDBName: DBBV
+  DestTableName: film
+  DestSchema: dvdrental
+  

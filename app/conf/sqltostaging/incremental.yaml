@@ -1,0 +1,50 @@
+public.rental:
+  SourceTableName: rental
+  SourceDBName: dvdrental
+  SourceSchema: public
+  TableType: INCREMENTAL
+  DestDBName: DBStaging
+  DestTableName: rental
+  DestSchema: dvdrental
+  FilterColumn: rental_date
+  
+public.payment:
+  SourceTableName: payment
+  SourceDBName: dvdrental
+  SourceSchema: public
+  TableType: INCREMENTAL
+  DestDBName: DBStaging
+  DestTableName: payment
+  DestSchema: dvdrental
+  FilterColumn: payment_date
+
+public.film_actor:
+  SourceTableName: film_actor
+  SourceDBName: dvdrental
+  SourceSchema: public
+  TableType: INCREMENTAL
+  DestDBName: DBStaging
+  DestTableName: film_actor
+  DestSchema: dvdrental
+  FilterColumn: last_update
+
+public.film_category:
+  SourceTableName: film_category
+  SourceDBName: dvdrental
+  SourceSchema: public
+  TableType: INCREMENTAL
+  DestDBName: DBStaging
+  DestTableName: film_category
+  DestSchema: dvdrental
+  FilterColumn: last_update
+
+public.customer:
+  SourceTableName: customer
+  SourceDBName: dvdrental
+  SourceSchema: public
+  TableType: INCREMENTAL
+  DestDBName: DBStaging
+  DestTableName: customer
+  DestSchema: dvdrental
+  FilterColumn: last_update
+
