@@ -16,10 +16,17 @@ def posgreExecute(dbName, query):
 # @dispatch(str, str, str)
 def getDF( source_dbname, tablename, schema):
     query = f"select T.* from {schema}.{tablename} T"
+   
     cur = conn.getCursor(source_dbname)
     cur.execute(query)
-    return pd.DataFrame( cur.fetchall())
+    colnames = [desc[0] for desc in cur.description]
+    # return colnames
+    return cur.fetchall()
+    # return pd.DataFrame( cur.fetchall())
 
+def fillPosgres( df, dst_dbname, schema, tablename, insertiontype):
+        df.to_sql(tablename, conn.getEngine(dst_dbname)
+                , schema=f"{schema}", if_exists=insertiontype, index=False)
 
 
 # #  for bv
@@ -54,9 +61,7 @@ def GenerateNaturalKey(df, Naturalkey):
     return newdf
 
 
-def fillPosgres( df, dst_dbname, schema, tablename, insertiontype):
-        df.to_sql(tablename, conn.getConnection(dst_dbname)
-                , schema=f"{schema}", if_exists=insertiontype, index=False)
+
         
 
 def scd(source_df, target_df, cols_to_gen, naturalkey, cols_to_track: list=None):

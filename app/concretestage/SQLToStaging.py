@@ -21,12 +21,16 @@ class SQLToStagingFull(AbstractFull):
         
         # yaml data
         yaml = ReadYaml(f"/app/conf/{stage}/{tabletype}.yaml", f'{schema}.{table}')
-        # print(f"\n{yaml.getSourceDBName()} \n, {yaml.getTSourceTableName()} \n,{yaml.getSourceSchema()}")
+        # print(f"\n{yaml.getSourceDBName()} \n,{yaml.getTSourceTableName()} \n,{yaml.getSourceSchema()}")
         # get data from source
         sourceDF = getDF(yaml.getSourceDBName(), yaml.getTSourceTableName(),yaml.getSourceSchema())
-        # sourceDF = getDF("postgres", "staff","public")
-        # print( type(sourceDF))
-        print(sourceDF)
+        # sourceDF = getDF("postgres", "test2","public")
+
+        # sourceDF = getDF("postgres", "test2","public")
+        print( type(sourceDF))
+
+        print(f"{sourceDF} \n: sourceDF")
+        # print(type(sourceDF))
 
         # cawera
         # fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())

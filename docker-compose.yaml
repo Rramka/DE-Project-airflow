@@ -301,7 +301,7 @@ services:
   postgres_db:
       image: postgres
       environment:
-        - POSTGRES_DB=postgres_db
+        - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
       ports:
@@ -326,7 +326,7 @@ services:
       - POSTGRES_HOST=postgres_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres_db
+      - POSTGRES_DB=postgres
     # depends_on:
     #   postgres_db:
     #       condition: service_healthy
