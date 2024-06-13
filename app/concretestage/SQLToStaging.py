@@ -27,13 +27,11 @@ class SQLToStagingFull(AbstractFull):
         # sourceDF = getDF("postgres", "test2","public")
 
         # sourceDF = getDF("postgres", "test2","public")
-        print( type(sourceDF))
-
-        print(f"{sourceDF} \n: sourceDF")
+        # print(f"{sourceDF} \n: sourceDF")
         # print(type(sourceDF))
 
         # cawera
-        # fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())
+        fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())
 
         return "SQLToStagingFull"
     

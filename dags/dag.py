@@ -14,7 +14,7 @@ tasks = ["city", "inventory", "payment", "country", "film_actor", "category",
          "film", "film_category", "customer", "language", "actor",
          "address", "staff", "rental", "store"]
 
-def process_table(table_stage, table_type="full",  schema="public", table="category"):
+def process_table(table_stage, table_type="full",  schema="public", table="staff"):
 
     print( dag_id)
 
