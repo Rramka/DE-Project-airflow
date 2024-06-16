@@ -2,7 +2,6 @@ import myFramework.source.posgresql.connect as conn
 import pandas as pd
 # from multipledispatch import dispatch
 from datetime import datetime
-from pandas import  DataFrame
 
 
 
@@ -17,16 +16,13 @@ def posgreExecute(dbName, query):
 # @dispatch(str, str, str)
 def getDF( source_dbname, tablename, schema):
     query = f"select T.* from {schema}.{tablename} T"
-
-
-
+   
     cur = conn.getCursor(source_dbname)
     cur.execute(query)
-    # colnames = [desc[0] for desc in cur.description]
-    df = DataFrame(cur.fetchall())
-    df.columns = [desc[0] for desc in cur.description]
+    colnames = [desc[0] for desc in cur.description]
     # return colnames
-    return DataFrame(df)
+    
+    return cur.fetchall()
     # return pd.DataFrame( cur.fetchall())
 
 def fillPosgres( df, dst_dbname, schema, tablename, insertiontype):
