@@ -17,10 +17,11 @@ from concretestage.DVToBV import DVToBV
 
 
 
-def execute( stage, type,schema, table) -> None:
+def execute(table, stage, type, schema) -> None:
 
    print(f"\n stage: {stage} \n type: {type} \n schema: {schema} \n table:{table}")
 
+   
    SqlToStaging().create_full().some_function(stage, type, schema, table)
 
 

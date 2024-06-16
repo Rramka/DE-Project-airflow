@@ -17,26 +17,23 @@ class SqlToStaging(AbstractStage):
 class SQLToStagingFull(AbstractFull):
 
 
-    def some_function(self, stage, tabletype,schema, table):
+    def some_function(self, stage, tabletype,schema, table) -> None:
         
         # yaml data
         yaml = ReadYaml(f"/app/conf/{stage}/{tabletype}.yaml", f'{schema}.{table}')
-        # print(f"\n{yaml.getSourceDBName()} \n,{yaml.getTSourceTableName()} \n,{yaml.getSourceSchema()}")
         # get data from source
         sourceDF = getDF(yaml.getSourceDBName(), yaml.getTSourceTableName(),yaml.getSourceSchema())
-        # sourceDF = getDF("postgres", "test2","public")
-
-        # sourceDF = getDF("postgres", "test2","public")
-        # print(f"{sourceDF} \n: sourceDF")
-        # print(type(sourceDF))
-
-        # cawera
+        # insert data another table
         fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())
-
-        return "SQLToStagingFull"
     
     
 class SQLToStagingIncremental(AbstractIncremental):
 
-    def some_function(self):
-        return "SQLToStagingIncremental"
+    def some_function(self, stage, tabletype,schema, table, fromDate, toDate) ->None:
+         # yaml data
+        yaml = ReadYaml(f"/app/conf/{stage}/{tabletype}.yaml", f'{schema}.{table}')
+        # get data from source
+        sourceDF = getDF(yaml.getSourceDBName(), yaml.getTSourceTableName(),yaml.getSourceSchema(),fromDate, toDate)
+        # insert data another table
+        fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())
+    
