@@ -11,8 +11,8 @@ dags = ["sqltostaging", "staigingtodv", "dvtobv"]
 
 
 SQLToStagingTasks = ["city", "inventory", "payment", "country", "film_actor", "category",
-         "film", "film_category", "customer", "language", "actor",
-         "address", "staff", "rental", "store"]
+                     "film", "film_category", "customer", "language", "actor",
+                     "address", "staff", "rental", "store"]
 
 def process_table(table, table_type):
 
