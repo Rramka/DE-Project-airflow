@@ -131,3 +131,15 @@ def scd(source_df, target_df, cols_to_gen, naturalkey, cols_to_track: list=None)
 
     # Print the final target DataFrame
     return target_df
+
+def get_data_from_conf_table(table, stage):
+    query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
+    cur = conn.getCursor("postgres")
+    cur.execute(query)
+    # colnames = [desc[0] for desc in cur.description]
+    df = DataFrame(cur.fetchall())
+    #print columns name
+    df.columns = [desc[0] for desc in cur.description]
+    # return colnames
+    return DataFrame(df)
+
