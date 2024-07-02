@@ -51,7 +51,7 @@ def execute(table, stage, type, schema) -> None:
 
 
 
-# ready = ReadYaml("/Users/ramazkapanadze/Desktop/DEProjectAirflow/app/conf/toStaging/full.yaml")
+# ready = ReadYaml("/Users/ramazkapanadze/Desktop/DEProjectAirflow/app/conf/toStaging/FULL.yaml")
 # # print(ready.getYaml())
 
 # tab = Tables("public.store")
@@ -145,7 +145,7 @@ def execute(table, stage, type, schema) -> None:
   
    
 # full load
-# testread = ReadYaml("/Users/ramazkapanadze/DEProject/DEProject/conf/tostaging/dvdrental/full.yaml", 'public.store')
+# testread = ReadYaml("/Users/ramazkapanadze/DEProject/DEProject/conf/tostaging/dvdrental/FULL.yaml", 'public.store')
 # test = toStaging_full(testread.path, testread.key)
 # sourceDF = utils.getDF(test.getSourceDBName(), test.getTSourceTableName(),test.getSourceSchema())
 # utils.fillPosgres(sourceDF,f'{test.getDestDBName()}',f'{test.getDestSchema()}',test.getDestTbaleName())
@@ -160,6 +160,6 @@ def execute(table, stage, type, schema) -> None:
 # utils.fillPosgres(newsourceDF,f'{test.getDestDBName()}',f'{test.getDestSchema()}',test.getDestTbaleName())
 
 # clean staging
-# cleantestread = ReadYaml("/Users/ramazkapanadze/DEProject/DEProject/conf/tostaging/dvdrental/full.yaml", 'public.category')
+# cleantestread = ReadYaml("/Users/ramazkapanadze/DEProject/DEProject/conf/tostaging/dvdrental/FULL.yaml", 'public.category')
 # t = CleanStaging()
 # t.cleanStaging('DBStaging', 'dvdrental', 'category', 2023, 12, 28)
