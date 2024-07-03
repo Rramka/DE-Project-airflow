@@ -15,8 +15,8 @@ def posgreExecute(dbName, query):
         engine.execute(query)
 
 # @dispatch(str, str, str)
-def getDF( source_dbname, tablename, schema):
-    query = f"select T.* from {schema}.{tablename} T"
+def getDF(source_dbname, tablename, schema):
+    query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
 
 
     cur = conn.getCursor(source_dbname)
@@ -134,6 +134,7 @@ def scd(source_df, target_df, cols_to_gen, naturalkey, cols_to_track: list=None)
 
 def get_data_from_conf_table(table, stage):
     query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
+    print(query)
     cur = conn.getCursor("postgres")
     cur.execute(query)
     # colnames = [desc[0] for desc in cur.description]

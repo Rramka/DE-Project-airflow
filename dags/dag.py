@@ -6,7 +6,7 @@ from datetime import datetime
 
 from main import execute
 
-dags = ["sqltostaging", "staigingtodv", "dvtobv"]
+dags = ["SqlToStaging", "staigingtodv", "dvtobv"]
 
 
 

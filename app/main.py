@@ -22,7 +22,7 @@ def execute(table, stage) -> None:
    print(f"\n stage: {stage} \n table:{table}")
 
    
-   SqlToStaging().create_full().some_function(stage, table)
+   SqlToStaging().create_full().some_function(table, stage)
 
 
     

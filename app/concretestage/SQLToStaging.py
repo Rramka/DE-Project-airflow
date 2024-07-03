@@ -18,7 +18,7 @@ class SqlToStaging(AbstractStage):
 class SQLToStagingFull(AbstractFull):
 
 
-    def some_function(self, stage, table) -> None:
+    def some_function(self, table, stage) -> None:
         
         # yaml data
         # yaml = ReadYaml(f"/app/conf/{stage}/{tabletype}.yaml", f'{schema}.{table}')
@@ -27,10 +27,12 @@ class SQLToStagingFull(AbstractFull):
         # # insert data another table
         # fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())
         # print(stage, table)
-        df = get_data_from_conf_table("staff", "SqlToStaging")
-        print(f"{df['sourcedbname']} \n {df['sourcetablename']} \n {df['sourceschema']}")
-        # print(type(get_data_from_conf_table("staff", "SqlToStaging")))
-        # print(get_data_from_conf_table("staff", "SqlToStaging"))
+        # print(f"{table}", f"{stage}")
+        df = get_data_from_conf_table(f"{table}", f"{stage}")
+        print(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
+
+        sourceDF = getDF(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
+        # fillPosgres(sourceDF, df['DestDBName'],df['DestSchema'],df['DestTableName'], df['InsertionType'])
 
 class SQLToStagingIncremental(AbstractIncremental):
 
