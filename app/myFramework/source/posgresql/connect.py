@@ -3,16 +3,16 @@ import psycopg2
 
 # for getDF
 def getCursor(dbname):
+    user = "postgres"
+    host = "postgres_db"
+    passwprd = "postgres"
     conn = psycopg2.connect(database = dbname, 
-                            user = "postgres", 
-                            host= 'postgres_db',
-                            password = "postgres",
+                            user = user,
+                            host= host,
+                            password = passwprd,
                             port = 9999)
     cur = conn.cursor()
     return cur
-
-
-
 
 def getEngine(dbname):
 

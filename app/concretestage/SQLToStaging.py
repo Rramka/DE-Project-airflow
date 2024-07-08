@@ -29,10 +29,22 @@ class SQLToStagingFull(AbstractFull):
         # print(stage, table)
         # print(f"{table}", f"{stage}")
         df = get_data_from_conf_table(f"{table}", f"{stage}")
-        print(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
+        print(df)
+        # print(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
+        sourcedbname = df['sourcedbname'].values[0]
+        sourcetablename = df['sourcetablename'].values[0]
+        sourceschema = df['sourceschema'].values[0]
 
-        sourceDF = getDF(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
-        # fillPosgres(sourceDF, df['DestDBName'],df['DestSchema'],df['DestTableName'], df['InsertionType'])
+        DestDBName = df['destdbname'].values[0]
+        DestSchema = df['destschema'].values[0]
+        DestTableName = df['desttablename'].values[0]
+        InsertionType = df['insertiontype'].values[0]
+
+        print(f"\n {sourcedbname} \n {sourcetablename} \n {sourceschema}")
+
+        sourceDF = getDF(sourcedbname,sourcetablename , sourceschema)
+
+        fillPosgres(sourceDF, DestDBName, DestSchema, DestTableName, InsertionType)
 
 class SQLToStagingIncremental(AbstractIncremental):
 

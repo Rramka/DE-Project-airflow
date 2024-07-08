@@ -17,14 +17,16 @@ def posgreExecute(dbName, query):
 # @dispatch(str, str, str)
 def getDF(source_dbname, tablename, schema):
     query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
-
-
+    
+    print(query)
+    
     cur = conn.getCursor(source_dbname)
     cur.execute(query)
     # colnames = [desc[0] for desc in cur.description]
     df = DataFrame(cur.fetchall())
     df.columns = [desc[0] for desc in cur.description]
     # return colnames
+    # cur.close()
     return DataFrame(df)
     # return pd.DataFrame( cur.fetchall())
 
@@ -141,6 +143,8 @@ def get_data_from_conf_table(table, stage):
     df = DataFrame(cur.fetchall())
     #print columns name
     df.columns = [desc[0] for desc in cur.description]
+    cur.close()
+
     # return colnames
     return DataFrame(df)
 
