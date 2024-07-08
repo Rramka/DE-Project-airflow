@@ -6,7 +6,7 @@ from datetime import datetime
 
 from main import execute
 
-dags = ["sqltostaging", "staigingtodv", "dvtobv"]
+dags = ["SqlToStaging", "staigingtodv", "dvtobv"]
 
 
 
@@ -19,7 +19,7 @@ def process_table(table, stage):
     print(f"{dag_id} :dag_id")
     print(f"table: {table}")
     # if table_stage == "sqltostaging" and table_type == "full":
-    return  execute(table, stage, "FULL","public")
+    return  execute(table, stage)
 
 
 def create_task(stage):

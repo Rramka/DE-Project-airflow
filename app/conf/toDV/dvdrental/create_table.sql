@@ -172,3 +172,49 @@ CREATE TABLE dvdrental.address (
 	postal_code text NULL,
 	phone text NULL
 );
+
+
+create table Etl_Process_Mapping (
+
+  ID SERIAL,
+  SourceTableName varchar,
+  SourceDBName varchar,
+  SourceSchema varchar,
+  TableType varchar,
+  DestDBName varchar,
+  DestTableName varchar,
+  DestSchema varchar,
+  FilterColumn varchar,
+  InsertionType varchar,
+  NaturalKey varchar,
+  SurogateKey varchar,
+  Code int,
+  Stage varchar,
+  Last_Run_date Date
+);
+
+insert into Etl_Process_Mapping (
+  SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  InsertionType,
+  Stage
+ )
+ values ('store',   'dvdrental',   'public',   'full',  'DBStaging',   'store',   'dvdrental',   'replace', 'SqlToStaging'),
+    ('category',   'dvdrental',   'public',   'full',   'DBStaging',   'category',   'dvdrental',   'replace' , 'SqlToStaging' ),
+    ('language',   'dvdrental',   'public',   'full',   'DBStaging',   'language',   'dvdrental',   'replace' , 'SqlToStaging'),
+    ('address',   'dvdrental',   'public',   'full',   'DBStaging',   'address',   'dvdrental',   'replace' , 'SqlToStaging'),
+	('city',   'dvdrental',   'public',   'full',   'DBStaging',   'city',   'dvdrental',   'replace' , 'SqlToStaging'),
+    ('country',   'dvdrental',   'public',   'full',   'DBStaging',   'country',   'dvdrental',   'replace' , 'SqlToStaging'),
+    ('film',   'dvdrental',   'public',   'full',   'DBStaging',   'film',   'dvdrental',   'replace' , 'SqlToStaging'),
+    ('actor',   'dvdrental',   'public',   'full',   'DBStaging',   'actor',   'dvdrental',   'replace' , 'SqlToStaging'),
+	('staff',   'dvdrental',   'public',   'full',   'DBStaging',   'staff',   'dvdrental',   'replace' , 'SqlToStaging'),
+    ('inventory',   'dvdrental',   'public',   'full',   'DBStaging',   'inventory',   'dvdrental',   'replace' , 'SqlToStaging')
+
+    
+    
+select * from etlconf.etl_process_mapping epm 
