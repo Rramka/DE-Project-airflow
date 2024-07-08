@@ -20,14 +20,7 @@ class SQLToStagingFull(AbstractFull):
 
     def some_function(self, table, stage) -> None:
         
-        # yaml data
-        # yaml = ReadYaml(f"/app/conf/{stage}/{tabletype}.yaml", f'{schema}.{table}')
-        # # get data from source
-        # sourceDF = getDF(yaml.getSourceDBName(), yaml.getTSourceTableName(),yaml.getSourceSchema())
-        # # insert data another table
-        # fillPosgres(sourceDF,f'{yaml.getDestDBName()}',f'{yaml.getDestSchema()}',yaml.getDestTbaleName(), yaml.getInsertionType())
-        # print(stage, table)
-        # print(f"{table}", f"{stage}")
+        
         df = get_data_from_conf_table(f"{table}", f"{stage}")
         print(df)
         # print(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
@@ -40,7 +33,7 @@ class SQLToStagingFull(AbstractFull):
         DestTableName = df['desttablename'].values[0]
         InsertionType = df['insertiontype'].values[0]
 
-        print(f"\n {sourcedbname} \n {sourcetablename} \n {sourceschema}")
+        # print(f"\n {sourcedbname} \n {sourcetablename} \n {sourceschema}")
 
         sourceDF = getDF(sourcedbname,sourcetablename , sourceschema)
 
