@@ -43,9 +43,21 @@ def fillPosgres( df, dst_dbname, schema, tablename, insertiontype):
 #     return pd.read_sql(query ,conn.getConnection(source_dbname))
 
 # @dispatch(str, str, str, str, str,str)
-# def getDF( source_dbname, tablename,schema,filterColumn, dateFrom, dateTo):
-#     query = f"select T.* from {schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
-#     return pd.read_sql(query ,conn.getConnection(source_dbname))
+def getDF( source_dbname, tablename,schema,filterColumn, dateFrom, dateTo):
+    # query = f"select T.* from {schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
+    # return pd.read_sql(query ,conn.getConnection(source_dbname))
+    query = f"select T.* from {source_dbname}.{schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
+
+    print(query)
+
+    cur = conn.getCursor(source_dbname)
+    cur.execute(query)
+    # colnames = [desc[0] for desc in cur.description]
+    df = DataFrame(cur.fetchall())
+    df.columns = [desc[0] for desc in cur.description]
+    # return colnames
+    # cur.close()
+    return DataFrame(df)
 
 def addInsertionDate(df: pd.DataFrame ):
       return df.assign(insertion_date = lambda x: datetime.now())

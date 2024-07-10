@@ -1,12 +1,15 @@
 from airflow import DAG
 from airflow.decorators import task,dag
 from airflow.operators.python import PythonOperator
+from sqlalchemy import create_engine
+import psycopg2
+from pandas import  DataFrame
 
 from datetime import datetime
 
 from main import execute
 
-dags = ["SqlToStaging", "staigingtodv", "dvtobv"]
+dags = ["sqltostaging", "staigingtodv", "dvtobv"]
 
 
 
@@ -14,12 +17,31 @@ SQLToStagingTasks = ["city", "inventory", "payment", "country", "film_actor", "c
                      "film", "film_category", "customer", "language", "actor",
                      "address", "staff", "rental", "store"]
 
-def process_table(table, stage):
 
-    print(f"{dag_id} :dag_id")
-    print(f"table: {table}")
+
+def get_data_from_conf_table(table, stage):
+    query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
+    cur = psycopg2.connect(database = "postgres",
+                            user = "postgres",
+                            host= "postgres_db",
+                            password = "postgres",
+                            port = 9999).cursor()
+    cur.execute(query)
+    # colnames = [desc[0] for desc in cur.description]
+    df = DataFrame(cur.fetchall())
+    #print columns name
+    df.columns = [desc[0] for desc in cur.description]
+    cur.close()
+
+    # return colnames
+    return DataFrame(df)
+
+def process_table(table, stage):
+    tabletype = get_data_from_conf_table(table,stage)['tabletype'].values[0]
+    # print(f"{dag_id} :dag_id")
+    # print(f"table: {table}")
     # if table_stage == "sqltostaging" and table_type == "full":
-    return  execute(table, stage)
+    return  execute(table, stage, tabletype)
 
 
 def create_task(stage):

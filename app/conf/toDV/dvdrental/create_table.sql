@@ -173,7 +173,7 @@ CREATE TABLE dvdrental.address (
 	phone text NULL
 );
 
-
+----create etl conf table for FULL
 create table Etl_Process_Mapping (
 
   ID SERIAL,
@@ -193,28 +193,51 @@ create table Etl_Process_Mapping (
   Last_Run_date Date
 );
 
-insert into Etl_Process_Mapping (
-  SourceTableName,
-  SourceDBName,
-  SourceSchema,
-  TableType,
-  DestDBName,
-  DestTableName,
-  DestSchema,
-  InsertionType,
-  Stage
- )
- values ('store',   'dvdrental',   'public',   'full',  'DBStaging',   'store',   'dvdrental',   'replace', 'SqlToStaging'),
-    ('category',   'dvdrental',   'public',   'full',   'DBStaging',   'category',   'dvdrental',   'replace' , 'SqlToStaging' ),
-    ('language',   'dvdrental',   'public',   'full',   'DBStaging',   'language',   'dvdrental',   'replace' , 'SqlToStaging'),
-    ('address',   'dvdrental',   'public',   'full',   'DBStaging',   'address',   'dvdrental',   'replace' , 'SqlToStaging'),
-	('city',   'dvdrental',   'public',   'full',   'DBStaging',   'city',   'dvdrental',   'replace' , 'SqlToStaging'),
-    ('country',   'dvdrental',   'public',   'full',   'DBStaging',   'country',   'dvdrental',   'replace' , 'SqlToStaging'),
-    ('film',   'dvdrental',   'public',   'full',   'DBStaging',   'film',   'dvdrental',   'replace' , 'SqlToStaging'),
-    ('actor',   'dvdrental',   'public',   'full',   'DBStaging',   'actor',   'dvdrental',   'replace' , 'SqlToStaging'),
-	('staff',   'dvdrental',   'public',   'full',   'DBStaging',   'staff',   'dvdrental',   'replace' , 'SqlToStaging'),
-    ('inventory',   'dvdrental',   'public',   'full',   'DBStaging',   'inventory',   'dvdrental',   'replace' , 'SqlToStaging')
+    insert into Etl_Process_Mapping (
+      SourceTableName,
+      SourceDBName,
+      SourceSchema,
+      TableType,
+      DestDBName,
+      DestTableName,
+      DestSchema,
+      InsertionType,
+      Stage
+     )
+     values ('store',   'dvdrental',   'public',   'full',  'DBStaging',   'store',   'dvdrental',   'replace', 'SqlToStaging'),
+        ('category',   'dvdrental',   'public',   'full',   'DBStaging',   'category',   'dvdrental',   'replace' , 'SqlToStaging' ),
+        ('language',   'dvdrental',   'public',   'full',   'DBStaging',   'language',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('address',   'dvdrental',   'public',   'full',   'DBStaging',   'address',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('city',   'dvdrental',   'public',   'full',   'DBStaging',   'city',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('country',   'dvdrental',   'public',   'full',   'DBStaging',   'country',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('film',   'dvdrental',   'public',   'full',   'DBStaging',   'film',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('actor',   'dvdrental',   'public',   'full',   'DBStaging',   'actor',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('staff',   'dvdrental',   'public',   'full',   'DBStaging',   'staff',   'dvdrental',   'replace' , 'SqlToStaging'),
+        ('inventory',   'dvdrental',   'public',   'full',   'DBStaging',   'inventory',   'dvdrental',   'replace' , 'SqlToStaging')
 
     
     
-select * from etlconf.etl_process_mapping epm 
+select * from etlconf.etl_process_mapping epm
+
+update etl_process_mapping set stage=lower(stage)
+
+-------create etl conf table for INCREMENTAL
+    insert into Etl_Process_Mapping (
+      SourceTableName,
+      SourceDBName,
+      SourceSchema,
+      TableType,
+      DestDBName,
+      DestTableName,
+      DestSchema,
+      InsertionType,
+      Stage,
+      FilterColumn
+     )
+     values ('rental',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'rental',   'dvdrental', 'append', 'SqlToStaging','rental_date'),
+('payment',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'payment',   'dvdrental', 'append', 'SqlToStaging','payment_date'),
+('film_actor',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'film_actor',   'dvdrental', 'append', 'SqlToStaging','last_update'),
+('film_category',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'film_category',   'dvdrental', 'append', 'SqlToStaging','last_update'),
+('customer',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'customer',   'dvdrental', 'append', 'SqlToStaging','last_update')
+
+
