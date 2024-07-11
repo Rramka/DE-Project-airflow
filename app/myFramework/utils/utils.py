@@ -14,12 +14,15 @@ def posgreExecute(dbName, query):
         engine = conn.getConnection(dbName)
         engine.execute(query)
 
-# @dispatch(str, str, str)
-def getDF(source_dbname, tablename, schema):
-    query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
-    
-    print(query)
-    
+def getDF(source_dbname, tablename,schema,filterColumn=None, dateFrom=None, dateTo=None):
+
+    if filterColumn is None and dateFrom is None and dateTo is None:
+        query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
+    else:
+        query = f"select T.* from {source_dbname}.{schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
+
+    # print(query)
+
     cur = conn.getCursor(source_dbname)
     cur.execute(query)
     # colnames = [desc[0] for desc in cur.description]
@@ -28,24 +31,18 @@ def getDF(source_dbname, tablename, schema):
     # return colnames
     # cur.close()
     return DataFrame(df)
-    # return pd.DataFrame( cur.fetchall())
-
 
 def fillPosgres( df, dst_dbname, schema, tablename, insertiontype):
         df.to_sql(tablename, conn.getEngine(dst_dbname)
                 , schema=f"{schema}", if_exists=insertiontype, index=False)
 
-
-# #  for bv
-# @dispatch(str, str)
-# def getDF( source_dbname, query):
-#     # query = f"select T.* from {schema}.{tablename} T where {filterColumn} >= '{dateFrom}'  "
-#     return pd.read_sql(query ,conn.getConnection(source_dbname))
-
-# @dispatch(str, str, str, str, str,str)
-# def getDF( source_dbname, tablename,schema,filterColumn, dateFrom, dateTo):
-#     query = f"select T.* from {schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
-#     return pd.read_sql(query ,conn.getConnection(source_dbname))
+def last_run_date_update(dst_dbname, schema, tablename):
+    query = f"update etlconf.Etl_Process_Mapping T set last_run_date = current_timestamp" \
+            f" where destdbname='{dst_dbname}' and destschema='{schema}' and desttablename='{tablename}';"
+    print(query)
+    cur = conn.getCursor('postgres')
+    cur.execute(query)
+    cur.execute("commit;")
 
 def addInsertionDate(df: pd.DataFrame ):
       return df.assign(insertion_date = lambda x: datetime.now())
@@ -66,10 +63,6 @@ def GenerateNaturalKey(df, Naturalkey):
     newdf = newdf.assign(tmpkey = pd.Series(NaturalValue).values)
     newdf.rename(columns={'tmpkey':f'source_{Naturalkey}'}, inplace=True)
     return newdf
-
-
-
-        
 
 def scd(source_df, target_df, cols_to_gen, naturalkey, cols_to_track: list=None):
 

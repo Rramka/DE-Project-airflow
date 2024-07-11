@@ -17,12 +17,15 @@ from concretestage.DVToBV import DVToBV
 
 
 
-def execute(table, stage) -> None:
+def execute(table, stage,tabletype) -> None:
 
-   print(f"\n stage: {stage} \n table:{table}")
+   # print(f"\n stage: {stage} \n table:{table}")
 
-   
-   SqlToStaging().create_full().some_function(table, stage)
+   if stage == 'sqltostaging':
+      if tabletype == 'full':
+         SqlToStaging().create_full().some_function(table, stage)
+      elif tabletype == 'incremental':
+            SqlToStaging().create_incremental().some_function(table, stage)
 
 
     
