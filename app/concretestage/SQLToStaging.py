@@ -2,7 +2,7 @@ from abstractstage.AbstractStage import AbstractStage
 from abstracttype.AbstractFull import AbstractFull
 from abstracttype.AbstractIncremental import AbstractIncremental
 from myFramework.utils.readYaml import ReadYaml
-from myFramework.utils.utils import getDF, fillPosgres, get_data_from_conf_table
+from myFramework.utils.utils import getDF, fillPosgres, get_data_from_conf_table, last_run_date_update
 
 
 class SqlToStaging(AbstractStage):
@@ -38,6 +38,7 @@ class SQLToStagingFull(AbstractFull):
         sourceDF = getDF(sourcedbname,sourcetablename , sourceschema)
 
         fillPosgres(sourceDF, DestDBName, DestSchema, DestTableName, InsertionType)
+        last_run_date_update(DestDBName, DestSchema, DestTableName)
 
 class SQLToStagingIncremental(AbstractIncremental):
 
@@ -57,9 +58,10 @@ class SQLToStagingIncremental(AbstractIncremental):
 
         # print(f"\n {sourcedbname} \n {sourcetablename} \n {sourceschema}")
         try:
-            sourceDF = getDF(sourcedbname,sourcetablename , sourceschema, FilterColumn, '2007-02-15', '2007-02-16')
+            sourceDF = getDF(sourcedbname,sourcetablename , sourceschema, FilterColumn, '2024-02-01', '2024-08-01')
         except:
             return("not data at the period")
         if sourceDF is not None:
             fillPosgres(sourceDF, DestDBName, DestSchema, DestTableName, InsertionType)
+            last_run_date_update(DestDBName, DestSchema, DestTableName)
 
