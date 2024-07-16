@@ -58,7 +58,7 @@ class SQLToStagingIncremental(AbstractIncremental):
 
         # print(f"\n {sourcedbname} \n {sourcetablename} \n {sourceschema}")
         try:
-            sourceDF = getDF(sourcedbname,sourcetablename , sourceschema, FilterColumn, '2024-02-01', '2024-08-01')
+            sourceDF = getDF(sourcedbname,sourcetablename , sourceschema, FilterColumn, '2000-01-01', '2024-08-01')
         except:
             return("not data at the period")
         if sourceDF is not None:

@@ -240,4 +240,29 @@ update etl_process_mapping set stage=lower(stage)
 ('film_category',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'film_category',   'dvdrental', 'append', 'SqlToStaging','last_update'),
 ('customer',   'dvdrental',   'public',   'INCREMENTAL',  'DBStaging',   'customer',   'dvdrental', 'append', 'SqlToStaging','last_update')
 
+---------    insert for staging to dv stage (scdtype1)
+insert into Etl_Process_Mapping (
+  SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  InsertionType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  NaturalKey,
+  SurogateKey,
+  Code,
+  stage
+     )
+     values ('film', 'DBStaging', 'dvdrental', 'full', 'replace', 'DBDV', 'film', 'dvdrental', 'film_id', 'film_id', 1,'stagingtodv'),
+     ('country', 'DBStaging', 'dvdrental', 'full', 'replace', 'DBDV', 'country', 'dvdrental', 'country_id', 'country_id', 1,'stagingtodv'),
+     ('actor', 'DBStaging', 'dvdrental', 'full', 'replace', 'DBDV', 'actor', 'dvdrental', 'actor_id', 'actor_id', 1,'stagingtodv'),
+     ('city', 'DBStaging', 'dvdrental', 'full', 'replace', 'DBDV', 'city', 'dvdrental', 'city_id', 'city_id', 1,'stagingtodv'),
+     ('language', 'DBStaging', 'dvdrental', 'full', 'replace', 'DBDV', 'language', 'dvdrental', 'language_id', 'language_id', 1,'stagingtodv'),
+     ('category', 'DBStaging', 'dvdrental', 'full', 'replace', 'DBDV', 'category', 'dvdrental', 'category_id', 'category_id', 1,'stagingtodv')
 
+
+select * from Etl_Process_Mapping  where sourcedbname ='DBStaging'
+
+update etl_process_mapping set stage = 'stagingtodv' where stage  is null

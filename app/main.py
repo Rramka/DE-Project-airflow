@@ -26,6 +26,14 @@ def execute(table, stage,tabletype) -> None:
          SqlToStaging().create_full().some_function(table, stage)
       elif tabletype == 'incremental':
             SqlToStaging().create_incremental().some_function(table, stage)
+   elif stage == 'stagingtodv':
+      if tabletype == 'full':
+         (StagingToDV().create_full().some_function(table, stage))
+      # elif tabletype == 'incremental':
+      #
+
+
+
 
 
     
