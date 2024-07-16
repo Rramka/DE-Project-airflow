@@ -9,7 +9,7 @@ from datetime import datetime
 
 from main import execute
 
-dags = ["sqltostaging", "staigingtodv", "dvtobv"]
+dags = ["sqltostaging", "stagingtodv", "dvtobv"]
 
 
 
@@ -21,6 +21,7 @@ SQLToStagingTasks = ["city", "inventory", "payment", "country", "film_actor", "c
 
 def get_data_from_conf_table(table, stage):
     query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
+    print('--------------------------------------------',query)
     cur = psycopg2.connect(database = "postgres",
                             user = "postgres",
                             host= "postgres_db",
