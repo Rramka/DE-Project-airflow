@@ -266,3 +266,48 @@ insert into Etl_Process_Mapping (
 select * from Etl_Process_Mapping  where sourcedbname ='DBStaging'
 
 update etl_process_mapping set stage = 'stagingtodv' where stage  is null
+
+
+--------insert staging to dv incremental tables----------------------
+ insert into postgres.etlconf.Etl_Process_Mapping  (
+  SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  InsertionType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  FilterColumn,
+  NaturalKey,
+  SurogateKey,
+  Code,
+  stage
+     )
+values ('rental',   'DBStaging',   'dvdrental',   'INCREMENTAL',  'append',   'DBDV',   'rental', 'dvdrental', 'rental_date','rental_id','rental_id',1,'stagingtodv'),
+
+('payment',   'DBStaging',   'dvdrental',   'INCREMENTAL',  'append',   'DBDV',   'payment', 'dvdrental', 'payment_date','payment_id','payment_id',1,'stagingtodv')
+
+
+
+--------- insert staging to dv Link tables-------------------------
+
+ insert into postgres.etlconf.Etl_Process_Mapping  (
+    SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  InsertionType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  FilterColumn,
+  SurogateKey,
+  Code,
+  stage
+     )
+values
+('film_category',   'dbstaging',   'dvdrental',   'link',  'replace',   'dbdv',   'film_category', 'dvdrental', 'last_update',('film_id','category_id'),1,'stagingtodv')
+
+('film_actor',   'dbstaging',   'dvdrental',   'link',  'replace',   'dbdv',   'film_actor', 'dvdrental', 'last_update',('film_id','actor_id'),1,'stagingtodv')
+

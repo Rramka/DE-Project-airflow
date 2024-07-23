@@ -18,4 +18,8 @@ class AbstractStage(ABC):
     def create_scd(self):
         pass
 
+    # @abstractmethod
+    def create_link(self):
+        pass
+
     

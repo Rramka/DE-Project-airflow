@@ -31,6 +31,9 @@ def execute(table, stage,tabletype) -> None:
          StagingToDV().create_full().some_function(table, stage)
       elif tabletype == 'incremental':
          StagingToDV().create_incremental().some_function(table, stage)
+      elif tabletype == 'link':
+         StagingToDV().create_link().some_function(table, stage)
+
 
 
 

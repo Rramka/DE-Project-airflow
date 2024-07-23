@@ -3,6 +3,7 @@ from abstractstage.AbstractStage import AbstractStage
 from abstracttype.AbstractFull import AbstractFull
 from abstracttype.AbstractIncremental import AbstractIncremental
 from abstracttype.AbastactSDCD import AbstractSCD
+from abstracttype.AbstractLink import AbstractLink
 from myFramework.utils.utils import getDF, fillPosgres, get_data_from_conf_table, last_run_date_update, generateSurogateKey, GenerateNaturalKey
 
 class StagingToDV(AbstractStage):
@@ -15,6 +16,9 @@ class StagingToDV(AbstractStage):
 
     def create_SCD(self) -> AbstractSCD:
         return StagingToDVSCD()
+
+    def create_link(self) -> AbstractLink:
+        return StagingToDVLink()
 
 class StagingToDVFull(AbstractFull):
     
@@ -75,6 +79,30 @@ class StagingToDVIncrementall(AbstractIncremental):
         last_run_date_update(DestDBName, DestSchema, DestTableName)
 
 
+class StagingToDVLink(AbstractLink):
+    def some_function(self, table, stage) ->None:
+        df = get_data_from_conf_table(f"{table}", f"{stage}")
+        # print(df['sourcedbname'], df['sourcetablename'], df['sourceschema'])
+        sourcedbname = df['sourcedbname'].values[0]
+        sourcetablename = df['sourcetablename'].values[0]
+        sourceschema = df['sourceschema'].values[0]
+
+        DestDBName = df['destdbname'].values[0]
+        DestSchema = df['destschema'].values[0]
+        DestTableName = df['desttablename'].values[0]
+        InsertionType = df['insertiontype'].values[0]
+        FilterColumn = df['filtercolumn'].values[0]
+        SurogateKey = df['surogatekey'].values[0]
+        Code = df['code'].values[0]
+
+        sourceDF = getDF(sourcedbname, sourcetablename,sourceschema)
+            # .drop("insertion_date",  axis=1)
+        dest_col_list = list(getDF(DestDBName, DestTableName,DestSchema).columns)
+        genaretedDF = generateSurogateKey(sourceDF, Code, list(SurogateKey.split(" ")),dest_col_list)
+
+
+        # fillPosgres(genaretedDF,DestDBName,DestSchema,DestTableName,InsertionType)
+        # last_run_date_update(DestDBName, DestSchema, DestTableName)
 
 
 
