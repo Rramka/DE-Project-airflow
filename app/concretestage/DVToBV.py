@@ -30,4 +30,5 @@ class DVToBvFull(AbstractFull):
         DestSchema = df['destschema'].values[0]
         DestTableName = df['desttablename'].values[0]
 
-        sourcDF = getDF(sourcedbname, Query)
+        sourceDF = getDF(sourcedbname, p_query=Query)
+        print('sourceDF', sourceDF)

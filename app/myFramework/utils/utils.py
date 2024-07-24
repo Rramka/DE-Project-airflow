@@ -14,15 +14,18 @@ def posgreExecute(dbName, query):
         engine = conn.getConnection(dbName)
         engine.execute(query)
 
-def getDF(source_dbname, tablename,schema,filterColumn=None, dateFrom=None, dateTo=None):
+def getDF(source_dbname, tablename=None,schema=None,filterColumn=None, dateFrom=None, dateTo=None,p_query=None):
+    if p_query is None:
 
-    if filterColumn is None and dateFrom is None and dateTo is None:
-        query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
-        # print('query', query)
+        if filterColumn is None and dateFrom is None and dateTo is None:
+            query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
+            # print('query', query)
+        else:
+            query = f"select T.* from {source_dbname}.{schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
+            # print('query', query)
+        # print(query)
     else:
-        query = f"select T.* from {source_dbname}.{schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
-        # print('query', query)
-    # print(query)
+        query = p_query
 
     cur = conn.getCursor(source_dbname)
     cur.execute(query)

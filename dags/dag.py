@@ -9,7 +9,7 @@ from datetime import datetime
 
 from main import execute
 
-dags = ["sqltostaging", "stagingtodv", "dvtobv",]
+dags = ["sqltostaging", "stagingtodv", "dvtobv"]
 
 
 
@@ -48,7 +48,7 @@ def process_table(table, stage):
 
 
 def create_task(stage):
-    if stage == "dbtodv":
+    if stage == "dvtobv":
         for task_id in bvtasks:
             tables_task = PythonOperator(task_id = task_id,
                                      python_callable=process_table ,
