@@ -9,13 +9,15 @@ from datetime import datetime
 
 from main import execute
 
-dags = ["sqltostaging", "stagingtodv", "dvtobv"]
+dags = ["sqltostaging", "stagingtodv", "dvtobv",]
 
 
 
 SQLToStagingTasks = ["city", "inventory", "payment", "country", "film_actor", "category",
                      "film", "film_category", "customer", "language", "actor",
                      "address", "staff", "rental", "store"]
+
+bvtasks = ["film"]
 
 
 
@@ -46,14 +48,21 @@ def process_table(table, stage):
 
 
 def create_task(stage):
-
-    for task_id in SQLToStagingTasks:
-        tables_task = PythonOperator(task_id = task_id,  
+    if stage == "dbtodv":
+        for task_id in bvtasks:
+            tables_task = PythonOperator(task_id = task_id,
+                                     python_callable=process_table ,
+                                     op_kwargs={"table" : task_id, "stage" : stage}
+                                    #  dag=dag
+                                )
+    else:
+        for task_id in SQLToStagingTasks:
+            tables_task = PythonOperator(task_id = task_id,
                                      python_callable=process_table , 
                                      op_kwargs={"table" : task_id, "stage" : stage}
                                     #  dag=dag
                                 )
-        tables_task
+    tables_task
 
 
 def create_dag(stage,start_date,schedule,description, tags,catchup):

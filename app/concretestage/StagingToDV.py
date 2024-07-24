@@ -93,6 +93,7 @@ class StagingToDVLink(AbstractLink):
         InsertionType = df['insertiontype'].values[0]
         FilterColumn = df['filtercolumn'].values[0]
         SurogateKey = df['surogatekey'].values[0]
+        print('SurogateKey', SurogateKey)
         Code = df['code'].values[0]
 
         sourceDF = getDF(sourcedbname, sourcetablename,sourceschema)
@@ -101,8 +102,8 @@ class StagingToDVLink(AbstractLink):
         genaretedDF = generateSurogateKey(sourceDF, Code, list(SurogateKey.split(" ")),dest_col_list)
 
 
-        # fillPosgres(genaretedDF,DestDBName,DestSchema,DestTableName,InsertionType)
-        # last_run_date_update(DestDBName, DestSchema, DestTableName)
+        fillPosgres(genaretedDF,DestDBName,DestSchema,DestTableName,InsertionType)
+        last_run_date_update(DestDBName, DestSchema, DestTableName)
 
 
 
