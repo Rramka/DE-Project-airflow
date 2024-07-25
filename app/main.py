@@ -14,6 +14,7 @@
 from concretestage.SQLToStaging import SqlToStaging
 from concretestage.StagingToDV import StagingToDV
 from concretestage.DVToBV import DVToBV
+from concretestage.DVToBV import DVToBV
 
 
 
@@ -35,6 +36,10 @@ def execute(table, stage,tabletype) -> None:
          StagingToDV().create_link().some_function(table, stage)
       elif tabletype == 'scd':
          StagingToDV().create_SCD().some_function(table, stage)
+   elif stage == 'dvtobv':
+      if tabletype == 'full':
+         DVToBV().create_full().some_function(table, stage)
+
 
 
 

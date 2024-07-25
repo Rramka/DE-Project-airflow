@@ -9,7 +9,7 @@ from datetime import datetime
 
 from main import execute
 
-dags = ["sqltostaging", "stagingtodv", "dvtobv",]
+dags = ["sqltostaging", "stagingtodv", "dvtobv"]
 
 
 
@@ -22,8 +22,10 @@ bvtasks = ["film"]
 
 
 def get_data_from_conf_table(table, stage):
-    query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
-    print('--------------------------------------------',query)
+    if stage != 'dvtobv':
+        query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
+    else:
+        query = f"select *  from etlconf.Etl_Process_Mapping where DestTableName = '{table}' and Stage = '{stage}'"
     cur = psycopg2.connect(database = "postgres",
                             user = "postgres",
                             host= "postgres_db",
@@ -48,7 +50,7 @@ def process_table(table, stage):
 
 
 def create_task(stage):
-    if stage == "dbtodv":
+    if stage == "dvtobv":
         for task_id in bvtasks:
             tables_task = PythonOperator(task_id = task_id,
                                      python_callable=process_table ,

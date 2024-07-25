@@ -34,13 +34,24 @@ class StagingToDVFull(AbstractFull):
             DestSchema = df['destschema'].values[0]
             DestTableName = df['desttablename'].values[0]
             InsertionType = df['insertiontype'].values[0]
+            SurogateKey = df['surogatekey'].values[0]
+            Naturalkey = df['naturalkey'].values[0]
+            Code = df['code'].values[0]
+
 
             # print(f"\n {sourcedbname} \n {sourcetablename} \n {sourceschema}")
 
             sourceDF = getDF(sourcedbname,sourcetablename , sourceschema)
             # print('sourceDF     :' ,sourceDF)
 
-            fillPosgres(sourceDF, DestDBName, DestSchema, DestTableName, InsertionType)
+            dest_col_list = list(getDF(DestDBName, DestTableName,DestSchema).columns)
+            # print('dest_col_list', dest_col_list)
+            generatenaturalDF = GenerateNaturalKey(sourceDF, Naturalkey)
+            # print('generatenaturalDF', generatenaturalDF)
+            genaretedDF = generateSurogateKey(generatenaturalDF,Code, list(SurogateKey.split(" ")) ,dest_col_list)
+            # print('genaretedDF', genaretedDF)
+
+            fillPosgres(genaretedDF, DestDBName, DestSchema, DestTableName, InsertionType)
             last_run_date_update(DestDBName, DestSchema, DestTableName)
 
 class StagingToDVIncrementall(AbstractIncremental):

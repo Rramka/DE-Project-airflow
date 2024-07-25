@@ -24,10 +24,14 @@ class DVToBvFull(AbstractFull):
         df = get_data_from_conf_table(f"{table}", f"{stage}")
         sourcedbname = df['sourcedbname'].values[0]
         Query = df['query'].values[0]
-        TableType = df['tableType'].values[0]
-        InsertionType = df['insertionType'].values[0]
+        InsertionType = df['insertiontype'].values[0]
         DestDBName = df['destdbname'].values[0]
         DestSchema = df['destschema'].values[0]
         DestTableName = df['desttablename'].values[0]
 
-        sourcDF = getDF(sourcedbname, Query)
+        sourceDF = getDF(sourcedbname, p_query=Query)
+        # print('sourceDF', sourceDF)
+
+        fillPosgres(sourceDF,DestDBName,DestSchema,DestTableName, InsertionType)
+        last_run_date_update(DestDBName, DestSchema, DestTableName)
+
