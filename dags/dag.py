@@ -22,8 +22,10 @@ bvtasks = ["film"]
 
 
 def get_data_from_conf_table(table, stage):
-    query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
-    print('--------------------------------------------',query)
+    if stage != 'dvtobv':
+        query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
+    else:
+        query = f"select *  from etlconf.Etl_Process_Mapping where DestTableName = '{table}' and Stage = '{stage}'"
     cur = psycopg2.connect(database = "postgres",
                             user = "postgres",
                             host= "postgres_db",

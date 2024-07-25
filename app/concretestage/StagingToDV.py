@@ -49,7 +49,7 @@ class StagingToDVFull(AbstractFull):
             generatenaturalDF = GenerateNaturalKey(sourceDF, Naturalkey)
             # print('generatenaturalDF', generatenaturalDF)
             genaretedDF = generateSurogateKey(generatenaturalDF,Code, list(SurogateKey.split(" ")) ,dest_col_list)
-            print('genaretedDF', genaretedDF)
+            # print('genaretedDF', genaretedDF)
 
             fillPosgres(genaretedDF, DestDBName, DestSchema, DestTableName, InsertionType)
             last_run_date_update(DestDBName, DestSchema, DestTableName)
