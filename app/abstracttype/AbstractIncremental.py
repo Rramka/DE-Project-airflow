@@ -5,7 +5,6 @@ from abc import ABC, abstractmethod
 class AbstractIncremental(ABC):
 
     @abstractmethod
-    def some_function(self):
+    def some_function(self, stage, table):
         pass
 
-    

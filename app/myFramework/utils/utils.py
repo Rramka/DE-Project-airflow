@@ -18,9 +18,10 @@ def getDF(source_dbname, tablename,schema,filterColumn=None, dateFrom=None, date
 
     if filterColumn is None and dateFrom is None and dateTo is None:
         query = f"select T.* from {source_dbname}.{schema}.{tablename} T"
+        # print('query', query)
     else:
         query = f"select T.* from {source_dbname}.{schema}.{tablename} T where {filterColumn} >= '{dateFrom}' and {filterColumn} < '{dateTo}' "
-
+        # print('query', query)
     # print(query)
 
     cur = conn.getCursor(source_dbname)
@@ -129,7 +130,7 @@ def scd(source_df, target_df, cols_to_gen, naturalkey, cols_to_track: list=None)
 
 def get_data_from_conf_table(table, stage):
     query = f"select *  from etlconf.Etl_Process_Mapping where SourceTableName = '{table}' and Stage = '{stage}'"
-    print(query)
+    # print('query', query)
     cur = conn.getCursor("postgres")
     cur.execute(query)
     # colnames = [desc[0] for desc in cur.description]
@@ -137,7 +138,6 @@ def get_data_from_conf_table(table, stage):
     #print columns name
     df.columns = [desc[0] for desc in cur.description]
     cur.close()
-
     # return colnames
     return DataFrame(df)
 
