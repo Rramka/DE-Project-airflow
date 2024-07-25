@@ -266,3 +266,72 @@ insert into Etl_Process_Mapping (
 select * from Etl_Process_Mapping  where sourcedbname ='DBStaging'
 
 update etl_process_mapping set stage = 'stagingtodv' where stage  is null
+
+
+--------insert staging to dv incremental tables----------------------
+ insert into postgres.etlconf.Etl_Process_Mapping  (
+  SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  InsertionType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  FilterColumn,
+  NaturalKey,
+  SurogateKey,
+  Code,
+  stage
+     )
+values ('rental',   'DBStaging',   'dvdrental',   'INCREMENTAL',  'append',   'DBDV',   'rental', 'dvdrental', 'rental_date','rental_id','rental_id',1,'stagingtodv'),
+('payment',   'DBStaging',   'dvdrental',   'INCREMENTAL',  'append',   'DBDV',   'payment', 'dvdrental', 'payment_date','payment_id','payment_id',1,'stagingtodv')
+
+
+
+--------- insert staging to dv Link tables-------------------------
+
+ insert into postgres.etlconf.Etl_Process_Mapping  (
+    SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  InsertionType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  FilterColumn,
+  SurogateKey,
+  Code,
+  stage
+     )
+values
+('film_category',   'dbstaging',   'dvdrental',   'link',  'replace',   'dbdv',   'film_category', 'dvdrental', 'last_update',('film_id','category_id'),1,'stagingtodv')
+('film_actor',   'dbstaging',   'dvdrental',   'link',  'replace',   'dbdv',   'film_actor', 'dvdrental', 'last_update',('film_id','actor_id'),1,'stagingtodv')
+
+
+
+------------insert  staging to dv scdtype2 tables --------------------------
+
+ insert into postgres.etlconf.Etl_Process_Mapping  (
+  SourceTableName,
+  SourceDBName,
+  SourceSchema,
+  TableType,
+  InsertionType,
+  DestDBName,
+  DestTableName,
+  DestSchema,
+  NaturalKey,
+  SurogateKey,
+  FilterColumn,
+  Code,
+  stage
+     )
+values
+('staff',   'dbstaging',   'dvdrental',   'scd',  'replace',   'dbdv',   'staff', 'dvdrental', 'staff_id','staff_id', 'last_update', 1,'stagingtodv'),
+('customer', 'dbstaging',   'dvdrental',   'scd',  'replace',   'dbdv',   'customer', 'dvdrental', 'customer_id','customer_id','last_update',1,'stagingtodv'),
+('inventory',   'dbstaging',   'dvdrental',   'scd',  'replace',   'dbdv',   'inventory', 'dvdrental',  'inventory_id','inventory_id','last_update',1,'stagingtodv'),
+('address',   'dbstaging',   'dvdrental',   'scd',  'replace',   'dbdv',   'address', 'dvdrental', 'address_id','address_id','last_update',1,'stagingtodv'),
+('store',   'dbstaging',   'dvdrental',   'scd',  'replace',   'dbdv',   'store', 'dvdrental', 'store_id','store_id','last_update',1,'stagingtodv')
+
